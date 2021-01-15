@@ -20,11 +20,9 @@ if (env) {
 
 const main = ['./src/site.js']
 const common = ['./src/common.js']
-let devtool
 
 if (isDev) {
   main.push('webpack-dev-server/client?http://0.0.0.0:8080')
-  devtool = 'source-map'
 }
 
 const plugins = [
@@ -39,12 +37,6 @@ const plugins = [
     chunks: ['common'],
     inject: 'body',
     filename: 'error.html'
-  }),
-  new webpack.DefinePlugin({
-    'process.env.CLIENT_ID': JSON.stringify(process.env.CLIENT_ID),
-    'process.env.API_KEY': JSON.stringify(process.env.API_KEY),
-    'process.env.ENABLE_GOOGLE_AUTH': JSON.stringify(process.env.ENABLE_GOOGLE_AUTH),
-    'process.env.GTM_ID': JSON.stringify(process.env.GTM_ID)
   })
 ]
 
@@ -61,11 +53,10 @@ module.exports = {
   },
   node: {
     fs: 'empty',
-    net: 'empty',
-    tls: 'empty',
-    child_process: 'empty'
+    tls: 'empty'
   },
 
+  stats: 'errors-only',
   output: {
     path: buildPath,
     publicPath: '/',
@@ -111,11 +102,12 @@ module.exports = {
 
   plugins: plugins,
 
-  devtool: devtool,
+  devtool: 'eval-cheap-source-map',
 
   devServer: {
     contentBase: buildPath,
     host: '0.0.0.0',
-    port: 8080
+    port: 8080,
+    disableHostCheck: true
   }
 }

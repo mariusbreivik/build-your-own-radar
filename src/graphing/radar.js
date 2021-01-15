@@ -4,7 +4,6 @@ const Chance = require('chance')
 const _ = require('lodash/core')
 
 const RingCalculator = require('../util/ringCalculator')
-const QueryParams = require('../util/queryParamProcessor')
 const AutoComplete = require('../util/autoComplete')
 
 const MIN_BLIP_WIDTH = 12
@@ -442,7 +441,7 @@ const Radar = function (size, radar) {
     header.select('.radar-title')
       .append('div')
       .attr('class', 'radar-title__logo')
-      .html('<a href="https://www.thoughtworks.com"> <img src="/images/logo.png" /> </a>')
+      .html('Based on the Technology Radar application developed by <a href="https://www.thoughtworks.com">ThoughtWorks</a>.')
 
     buttonsGroup = header.append('div')
       .classed('buttons-group', true)
@@ -500,8 +499,7 @@ const Radar = function (size, radar) {
       .append('p')
       .html('Powered by <a href="https://www.thoughtworks.com"> ThoughtWorks</a>. ' +
       'By using this service you agree to <a href="https://www.thoughtworks.com/radar/tos">ThoughtWorks\' terms of use</a>. ' +
-      'You also agree to our <a href="https://www.thoughtworks.com/privacy-policy">privacy policy</a>, which describes how we will gather, use and protect any personal data contained in your public Google Sheet. ' +
-      'This software is <a href="https://github.com/thoughtworks/build-your-own-radar">open source</a> and available for download and self-hosting.')
+      'You also agree to our <a href="https://www.thoughtworks.com/privacy-policy">privacy policy</a> ')
   }
 
   function mouseoverQuadrant (order) {
@@ -573,13 +571,6 @@ const Radar = function (size, radar) {
     return self
   }
 
-  function constructSheetUrl (sheetName) {
-    var noParamUrl = window.location.href.substring(0, window.location.href.indexOf(window.location.search))
-    var queryParams = QueryParams(window.location.search.substring(1))
-    var sheetUrl = noParamUrl + '?sheetId=' + queryParams.sheetId + '&sheetName=' + encodeURIComponent(sheetName)
-    return sheetUrl
-  }
-
   function plotAlternativeRadars (alternatives, currentSheet) {
     var alternativeSheetButton = alternativeDiv
       .append('div')
@@ -590,7 +581,6 @@ const Radar = function (size, radar) {
       alternativeSheetButton
         .append('div:a')
         .attr('class', 'first full-view alternative multiple-sheet-button')
-        .attr('href', constructSheetUrl(alternative))
         .text(alternative)
 
       if (alternative === currentSheet) {
